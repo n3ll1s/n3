@@ -1,0 +1,47 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model News {
+  id          String   @id @default(uuid())
+  name        String
+  imageUrl    String?
+  goal        String
+  deadline    String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Contacts {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  phone     String
+  firstName String
+  lastName  String
+  userId    String
+  status    Status   @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Status {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
